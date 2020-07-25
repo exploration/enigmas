@@ -18,6 +18,12 @@ defmodule Enigma.ShapeTest do
     assert {:error, %Ecto.Changeset{}} = Shape.create(%{@valid_params | color: "farts"})
     assert {:error, %Ecto.Changeset{}} = Shape.create(%{@valid_params | color: "#FAFA"})
   end
+
+  test "validate height" do
+    assert {:ok, %Shape{}} = Shape.create(%{@valid_params | height: 0})
+    assert {:error, %Ecto.Changeset{}} = Shape.create(%{@valid_params | height: 900})
+    assert {:error, %Ecto.Changeset{}} = Shape.create(%{@valid_params | height: -10})
+  end
   
   test "validate opacity" do
     assert {:ok, %Shape{}} = Shape.create(%{@valid_params | opacity: 0})
@@ -31,8 +37,20 @@ defmodule Enigma.ShapeTest do
     assert {:error, %Ecto.Changeset{}} = Shape.create(%{@valid_params | rotation: -10})
   end
 
+  test "validate width" do
+    assert {:ok, %Shape{}} = Shape.create(%{@valid_params | width: 0})
+    assert {:error, %Ecto.Changeset{}} = Shape.create(%{@valid_params | width: 900})
+    assert {:error, %Ecto.Changeset{}} = Shape.create(%{@valid_params | width: -10})
+  end
+
   test "validate variety" do
     assert {:ok, %Shape{}} = Shape.create(@valid_params)
     assert {:error, %Ecto.Changeset{}} = Shape.create(%{@valid_params | variety: "zoinks"})
+  end
+
+  test "example params" do
+    Enum.each (0..1000), fn _ ->
+      assert {:ok, %Shape{}} = Shape.create(Shape.example_params(:all))
+    end
   end
 end
