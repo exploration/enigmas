@@ -1,0 +1,49 @@
+defmodule Enigma.Covers.Shape do
+  use Ecto.Schema
+  import Ecto.Changeset
+
+  @varieties ["ellipse", "rectangle", "triangle"]
+
+  embedded_schema do
+    field :color, :string
+    field :height, :integer
+    field :opacity, :integer
+    field :rotation, :integer
+    field :variety, :string
+    field :width, :integer
+  end
+
+  @doc false
+  def changeset(shape, attrs) do
+    shape
+    |> cast(attrs, [:color, :opacity, :rotation, :width, :height, :variety])
+    |> validate_required([:color, :opacity, :rotation, :width, :height])
+    |> validate_format(:color, ~r/^#([[:xdigit:]]{3}){1,2}$/)
+    |> validate_number(:opacity, greater_than_or_equal_to: 0, less_than_or_equal_to: 100)
+    |> validate_number(:rotation, greater_than_or_equal_to: 0, less_than_or_equal_to: 360)
+    |> validate_variety()
+  end
+
+  @doc """
+  Given a map of attrs, create a `%Shape{}`.
+
+  Returns `{:ok, %Shape{}}` on success, `{:error, %Ecto.Changeset}` on error. See `Ecto.Changeset.apply_action/2` for more detail.
+  """
+  def create(attrs) do
+    changeset(%__MODULE__{}, attrs)
+    |> apply_action(:create)
+  end
+
+  defp validate_variety(changeset) do
+    case get_change(changeset, :variety) do
+      nil -> 
+        changeset
+      variety ->
+        if variety in @varieties do
+          changeset
+        else
+          add_error(changeset, :variety, "not recognized")
+        end
+    end
+  end
+end
