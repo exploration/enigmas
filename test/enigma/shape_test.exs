@@ -1,56 +1,45 @@
 defmodule Enigma.ShapeTest do
   use Enigma.DataCase
 
-  alias Enigma.Covers.Shape
-
-  @valid_params %{
-    color: "#FFF",
-    height: 10,
-    opacity: 50,
-    rotation: 200,
-    variety: "ellipse",
-    width: 20
-  }
+  alias Enigma.Covers.{Example, Shape}
 
   test "validate color format" do
-    assert {:ok, %Shape{}} = Shape.create(@valid_params)
-    assert {:ok, %Shape{}} = Shape.create(%{@valid_params | color: "#123456"})
-    assert {:error, %Ecto.Changeset{}} = Shape.create(%{@valid_params | color: "farts"})
-    assert {:error, %Ecto.Changeset{}} = Shape.create(%{@valid_params | color: "#FAFA"})
+    assert {:ok, %Shape{}} = Shape.create(shape())
+    assert {:ok, %Shape{}} = Shape.create(shape color: "#123456")
+    assert {:error, %Ecto.Changeset{}} = Shape.create(shape color: "farts")
+    assert {:error, %Ecto.Changeset{}} = Shape.create(shape color: "#FAFA")
   end
 
   test "validate height" do
-    assert {:ok, %Shape{}} = Shape.create(%{@valid_params | height: 0})
-    assert {:error, %Ecto.Changeset{}} = Shape.create(%{@valid_params | height: 900})
-    assert {:error, %Ecto.Changeset{}} = Shape.create(%{@valid_params | height: -10})
+    assert {:ok, %Shape{}} = Shape.create(shape height: 0)
+    assert {:error, %Ecto.Changeset{}} = Shape.create(shape height: 900)
+    assert {:error, %Ecto.Changeset{}} = Shape.create(shape height: -10)
   end
   
   test "validate opacity" do
-    assert {:ok, %Shape{}} = Shape.create(%{@valid_params | opacity: 0})
-    assert {:error, %Ecto.Changeset{}} = Shape.create(%{@valid_params | opacity: 900})
-    assert {:error, %Ecto.Changeset{}} = Shape.create(%{@valid_params | opacity: -10})
+    assert {:ok, %Shape{}} = Shape.create(shape opacity: 0)
+    assert {:error, %Ecto.Changeset{}} = Shape.create(shape opacity: 900)
+    assert {:error, %Ecto.Changeset{}} = Shape.create(shape opacity: -10)
   end
 
   test "validate rotation" do
-    assert {:ok, %Shape{}} = Shape.create(%{@valid_params | rotation: 0})
-    assert {:error, %Ecto.Changeset{}} = Shape.create(%{@valid_params | rotation: 900})
-    assert {:error, %Ecto.Changeset{}} = Shape.create(%{@valid_params | rotation: -10})
+    assert {:ok, %Shape{}} = Shape.create(shape rotation: 0)
+    assert {:error, %Ecto.Changeset{}} = Shape.create(shape rotation: 900)
+    assert {:error, %Ecto.Changeset{}} = Shape.create(shape rotation: -10)
   end
 
   test "validate width" do
-    assert {:ok, %Shape{}} = Shape.create(%{@valid_params | width: 0})
-    assert {:error, %Ecto.Changeset{}} = Shape.create(%{@valid_params | width: 900})
-    assert {:error, %Ecto.Changeset{}} = Shape.create(%{@valid_params | width: -10})
+    assert {:ok, %Shape{}} = Shape.create(shape width: 0)
+    assert {:error, %Ecto.Changeset{}} = Shape.create(shape width: 900)
+    assert {:error, %Ecto.Changeset{}} = Shape.create(shape width: -10)
   end
 
   test "validate variety" do
-    assert {:ok, %Shape{}} = Shape.create(@valid_params)
-    assert {:error, %Ecto.Changeset{}} = Shape.create(%{@valid_params | variety: "zoinks"})
+    assert {:ok, %Shape{}} = Shape.create(shape())
+    assert {:error, %Ecto.Changeset{}} = Shape.create(shape variety: "zoinks")
   end
 
-  test "example params" do
-    Enum.each (0..1000), fn _ ->
-      assert {:ok, %Shape{}} = Shape.create(Shape.example_params(:all))
-    end
+  defp shape(map \\ %{}) do
+    Example.shape(:all, map)
   end
 end
