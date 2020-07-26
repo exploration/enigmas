@@ -1,4 +1,5 @@
 defmodule Enigma.Covers.Cover do
+  @derive Jason.Encoder
   use Ecto.Schema
   import Ecto.Changeset
   alias Enigma.Covers.Shape
@@ -27,5 +28,20 @@ defmodule Enigma.Covers.Cover do
   def create(attrs) do
     changeset(%__MODULE__{}, attrs)
     |> apply_action(:create)
+  end
+
+  @doc "Convert a Base64-encoded string into a %Cover{}"
+  def decode64(blob) when is_binary(blob) do
+    blob
+    |> Base.decode64!
+    |> Jason.decode!
+    |> create
+  end
+
+  @doc "Convert a %Cover{} into a Base64-encoded string"
+  def encode64(%__MODULE__{} = cover) do
+    cover
+    |> Jason.encode!
+    |> Base.encode64
   end
 end

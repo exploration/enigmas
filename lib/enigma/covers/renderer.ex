@@ -3,11 +3,14 @@ defmodule Enigma.Covers.Renderer do
 
   def render_cover_circle(%Cover{} = cover) do
     """
-    <svg width="#{cover.size}" 
+    <svg version="1.1"
+         xmlns="http://www.w3.org/2000/svg"
+         width="#{cover.size}" 
          height="#{cover.size}" 
          viewBox="0 0 #{cover.size} #{cover.size}" 
          stroke="#233E52" 
-         stroke-width="1.5%"
+         stroke-linejoin="round"
+         stroke-width="2%"
          fill="#FFF">
       <clipPath id="clip-text">
         <ellipse cx="50%" cy="50%" rx="50%" ry="50%" />
@@ -25,11 +28,14 @@ defmodule Enigma.Covers.Renderer do
 
   def render_cover_rectangle(%Cover{} = cover) do
     """
-    <svg width="#{cover.size}" 
+    <svg version="1.1"
+         xmlns="http://www.w3.org/2000/svg"
+         width="#{cover.size}" 
          height="#{cover.size}" 
          viewBox="0 0 #{cover.size} #{cover.size}" 
          stroke="#233E52" 
-         stroke-width="1.5%"
+         stroke-linejoin="round"
+         stroke-width="2%"
          fill="#FFF">
       <rect x="0" 
             y="0" 
@@ -81,5 +87,9 @@ defmodule Enigma.Covers.Renderer do
              clip-path="url(#clip-text)"
     />
     """
+  end
+
+  def filter_for_inline_svg(string) do
+    String.replace(string, "#", "%23")
   end
 end

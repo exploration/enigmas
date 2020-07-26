@@ -1,4 +1,5 @@
 defmodule Enigma.Covers.Shape do
+  @derive Jason.Encoder
   use Ecto.Schema
   import Ecto.Changeset
 
