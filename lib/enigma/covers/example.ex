@@ -1,5 +1,5 @@
 defmodule Enigma.Covers.Example do
-  alias Enigma.Covers.Shape
+  alias Enigma.Covers.{Cover,Shape}
 
   @moduledoc """
   Example parameter generators for various Enigma / Cover-related tasks
@@ -38,13 +38,17 @@ defmodule Enigma.Covers.Example do
       %{size: 82}
 
       iex> cover [:size, :shape_count]
-      %{size: 20, shape_count: 3}
+      %{
+        size: 20, 
+        shape_count: 3
+      }
 
       iex> cover :all
       %{
         size: 82,
         shape_count: 3,
         shapes: [ %{...}, ... ]
+        variety: "square"
       }
 
       iex> cover :all, size: 100
@@ -52,15 +56,17 @@ defmodule Enigma.Covers.Example do
         size: 100,
         shape_count: 3,
         shapes: [ %{...}, ... ],
+        variety: "square"
       }
   """
   def cover(opts, attrs \\ [])
-  def cover(:all, attrs), do: cover([:shape_count, :size], attrs)
+  def cover(:all, attrs), do: cover([:shape_count, :size, :variety], attrs)
   def cover(opt, attrs) when is_atom(opt), do: cover([opt], attrs)
   def cover(opts, attrs) when is_list(opts) do
     example = Enum.reduce(opts, %{}, fn
       :shape_count, acc -> Enum.into(%{shape_count: Enum.random(2..8)}, acc)
       :size, acc -> Enum.into(%{size: Enum.random(100..400)}, acc)
+      :variety, acc -> Enum.into(%{variety: Enum.random(Cover.varieties())}, acc)
       _, acc -> acc
     end)
 

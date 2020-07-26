@@ -9,15 +9,17 @@ defmodule Enigma.Covers.Cover do
   embedded_schema do
     field :shape_count, :integer
     field :size, :integer
+    field :variety, :string
     embeds_many :shapes, Shape
   end
 
   @doc false
   def changeset(shape, attrs) do
     shape
-    |> cast(attrs, [:shape_count, :size])
-    |> validate_required([:shape_count, :size])
+    |> cast(attrs, [:shape_count, :size, :variety])
     |> cast_embed(:shapes)
+    |> validate_required([:shape_count, :size, :variety])
+    |> validate_variety()
   end
 
   @doc """
@@ -43,5 +45,26 @@ defmodule Enigma.Covers.Cover do
     cover
     |> Jason.encode!
     |> Base.url_encode64
+  end
+
+  @doc """
+  A list of the potential valid shape varieties
+  """
+  def varieties do
+    ["circle", "square"]
+  end
+
+  defp validate_variety(changeset) do
+    case get_change(changeset, :variety) do
+      nil ->
+        changeset
+
+      variety ->
+        if variety in varieties() do
+          changeset
+        else
+          add_error(changeset, :variety, "not recognized")
+        end
+    end
   end
 end

@@ -12,12 +12,12 @@ defmodule EnigmaWeb.CoverLive do
   def handle_params(params, _uri, socket) do
     cover_count = String.to_integer(params["cover_count"] || "5")
     size = String.to_integer(params["size"] || "50")
-    style = params["style"] || "rectangle"
+    variety = params["variety"] || "square"
     socket = 
       assign(socket, 
         cover_count: cover_count, 
         size: size,
-        style: style
+        variety: variety
       )
       |> create_covers()
     {:noreply, socket}
@@ -27,14 +27,14 @@ defmodule EnigmaWeb.CoverLive do
   def handle_event("refresh", params, socket) do
     cover_count = String.to_integer(params["cover_count"])
     size = String.to_integer(params["size"])
-    style = params["style"]
+    variety = params["variety"]
     socket = push_patch(socket,
       to: Routes.cover_path(
         socket,
         :index,
         cover_count: cover_count,
         size: size,
-        style: style
+        variety: variety
       )
     )
     {:noreply, socket}
@@ -67,14 +67,17 @@ defmodule EnigmaWeb.CoverLive do
             </div>
           </div>
           <div class="mr5">
+            <div class="<%= xc("label") %>">
+              Variety
+            </div>
             <div class="flex">
-              <label class="flex mr3 <%= xc "label" %>">
-                <input type="radio" name="style" value="circle" class="mr1 w-100" <%= if @style == "circle", do: "checked=\"checked\"" %>>
+              <label class="flex mr3">
+                <input type="radio" name="variety" value="circle" class="mr1 w-100" <%= if @variety == "circle", do: "checked=\"checked\"" %>>
                 Circle
               </label>
-              <label class="flex <%= xc "label" %>">
-                <input type="radio" name="style" value="rectangle" class="mr1 w-100" <%= if @style == "rectangle", do: "checked=\"checked\"" %>>
-                Rectangle
+              <label class="flex">
+                <input type="radio" name="variety" value="square" class="mr1 w-100" <%= if @variety == "square", do: "checked=\"checked\"" %>>
+                Square
               </label>
             </div>
           </div>
@@ -85,11 +88,7 @@ defmodule EnigmaWeb.CoverLive do
       </form>
       <div class="mt3">
         <%= for cover <- @covers do %>
-          <%= if @style == "rectangle" do %>
-            <%= link raw(Renderer.render_cover_rectangle(cover)), to: Routes.cover_download_path(@socket, :show, Cover.encode64(cover), variety: "rectangle"), target: "enigma", class: "no-underline" %>
-          <% else %>
-            <%= link raw(Renderer.render_cover_circle(cover)), to: Routes.cover_download_path(@socket, :show, Cover.encode64(cover), variety: "circle"), target: "enigma", class: "no-underline" %>
-          <% end %>
+          <%= link raw(Renderer.render_cover(cover)), to: Routes.cover_download_path(@socket, :show, Cover.encode64(cover)), target: "enigma", class: "no-underline" %>
         <% end %>
       </div>
     </section>
@@ -97,17 +96,32 @@ defmodule EnigmaWeb.CoverLive do
   end
 
   defp create_covers(socket) do
-    if socket.assigns[:previous_size] && socket.assigns.previous_size != socket.assigns.size do
-      covers = Enum.map socket.assigns.covers, fn cover ->
-        %{cover | size: socket.assigns.size}
-      end
-      assign(socket, previous_size: socket.assigns.size, covers: covers)
-    else
-      covers = Enum.map 1..socket.assigns.cover_count, fn _i ->
-        {:ok, cover} = Cover.create Example.cover(:all, size: socket.assigns.size)
-        cover
-      end
-      assign(socket, previous_size: socket.assigns.size, covers: covers)
+    size_changed = socket.assigns[:previous_size] && socket.assigns.previous_size != socket.assigns.size 
+    variety_changed = socket.assigns[:previous_variety] && socket.assigns.previous_variety != socket.assigns.variety 
+    cond do
+      size_changed ->
+        covers = Enum.map socket.assigns.covers, fn cover ->
+          %{cover | size: socket.assigns.size}
+        end
+        assign(socket, previous_size: socket.assigns.size, covers: covers)
+      variety_changed ->
+        covers = Enum.map socket.assigns.covers, fn cover ->
+          %{cover | variety: socket.assigns.variety}
+        end
+        assign(socket, previous_variety: socket.assigns.variety, covers: covers)
+      true ->
+        covers = Enum.map 1..socket.assigns.cover_count, fn _i ->
+          {:ok, cover} = Cover.create Example.cover(:all, 
+            size: socket.assigns.size, 
+            variety: socket.assigns.variety
+          )
+          cover
+        end
+        assign(socket, 
+          previous_size: socket.assigns.size, 
+          previous_variety: socket.assigns.variety, 
+          covers: covers
+        )
     end
   end
 end
