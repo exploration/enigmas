@@ -1,5 +1,5 @@
 defmodule EnigmaWeb.PageLiveTest do
-  use EnigmaWeb.ConnCase
+  use EnigmaWeb.ConnCase, async: true
 
   import Phoenix.LiveViewTest
 

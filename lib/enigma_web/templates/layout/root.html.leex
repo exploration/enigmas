@@ -7,11 +7,11 @@
     <%= csrf_meta_tag() %>
     <%= live_title_tag assigns[:page_title] || "Enigma" %>
     <link phx-track-static rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/>
-    <link rel="stylesheet" href="//cdn.lab.explo.org/css/tachyons.min.css" type="text/css" media="all">
-    <link rel="stylesheet" href="//cdn.lab.explo.org/css/v2/explo.min.css" type="text/css" media="all">
+    <link rel="stylesheet" href="https://cdn.lab.explo.org/css/tachyons.min.css" type="text/css" media="all">
+    <link rel="stylesheet" href="https://cdn.lab.explo.org/css/v2/explo.min.css" type="text/css" media="all">
     <script defer phx-track-static type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
   </head>
-  <body>
+  <body class="x-tahoma">
     <%= @inner_content %>
   </body>
 </html>

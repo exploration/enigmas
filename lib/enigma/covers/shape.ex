@@ -10,14 +10,16 @@ defmodule Enigma.Covers.Shape do
     field :opacity, :integer
     field :rotation, :integer
     field :variety, :string
+    field :x, :integer
     field :width, :integer
+    field :y, :integer
   end
 
   @doc false
   def changeset(shape, attrs) do
     shape
-    |> cast(attrs, [:color, :opacity, :rotation, :width, :height, :variety])
-    |> validate_required([:color, :opacity, :rotation, :width, :height])
+    |> cast(attrs, [:color, :height, :opacity, :rotation, :variety, :x, :width, :y, ])
+    |> validate_required([:color, :height, :opacity, :rotation, :variety, :x, :width, :y, ])
     |> validate_format(:color, ~r/^#([[:xdigit:]]{3}){1,2}$/)
     |> validate_number(:height, greater_than_or_equal_to: 0, less_than_or_equal_to: 100)
     |> validate_number(:opacity, greater_than_or_equal_to: 0, less_than_or_equal_to: 100)

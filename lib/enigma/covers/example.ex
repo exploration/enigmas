@@ -28,6 +28,55 @@ defmodule Enigma.Covers.Example do
   end
 
   @doc """
+  Given a list of example %Cover{} field names, returns an example map that contains matching valid attributes.
+
+  Takes an optional second parameter, which is a keyword list of manual overrides for specific fields (which would typically be used with the `:all` option).
+
+  ## Examples
+
+      iex> cover :size
+      %{size: 82}
+
+      iex> cover [:size, :shape_count]
+      %{size: 20, shape_count: 3}
+
+      iex> cover :all
+      %{
+        size: 82,
+        shape_count: 3,
+        shapes: [ %{...}, ... ]
+      }
+
+      iex> cover :all, size: 100
+      %{
+        size: 100,
+        shape_count: 3,
+        shapes: [ %{...}, ... ],
+      }
+  """
+  def cover(opts, attrs \\ [])
+  def cover(:all, attrs), do: cover([:shape_count, :size], attrs)
+  def cover(opt, attrs) when is_atom(opt), do: cover([opt], attrs)
+  def cover(opts, attrs) when is_list(opts) do
+    example =
+      Enum.reduce(opts, %{}, fn
+        :shape_count, acc -> Enum.into(%{shape_count: Enum.random(3..6)}, acc)
+        :size, acc -> Enum.into(%{size: Enum.random(100..400)}, acc)
+        _, acc -> acc
+      end)
+
+    example = Enum.reduce(attrs, example, fn {key, value}, acc ->
+      Map.merge(acc, %{key => value})
+    end)
+
+    Map.merge(example, %{shapes:
+      Enum.map(1..example.shape_count, fn _i ->
+        shape(:all, example.size)
+      end)
+    })
+  end
+
+  @doc """
   Given a list of example %Shape{} field names, returns an example map that contains matching valid attributes.
 
   Takes an optional second parameter, which is a keyword list of manual overrides for specific fields (which would typically be used with the `:all` option).
@@ -60,32 +109,27 @@ defmodule Enigma.Covers.Example do
           width: 4
       }
   """
-  def shape(opts, attrs \\ [])
-  def shape(:all, attrs), do: shape([:color, :height, :opacity, :rotation, :variety, :width], attrs)
-  def shape(opt, attrs) when is_atom(opt), do: shape([opt], attrs)
-  def shape(opts, attrs) when is_list(opts) do
-    example = Enum.reduce(opts, %{}, fn
-      :color, acc ->
-        Enum.into(%{color: color()}, acc)
+  def shape(opts, size, attrs \\ [])
 
-      :height, acc ->
-        Enum.into(%{height: Enum.random(1..100)}, acc)
+  def shape(:all, size, attrs),
+    do: shape([:color, :height, :opacity, :rotation, :variety, :x, :width, :y], size, attrs)
 
-      :opacity, acc ->
-        Enum.into(%{opacity: Enum.random(1..100)}, acc)
+  def shape(opt, size, attrs) when is_atom(opt), do: shape([opt], size, attrs)
 
-      :rotation, acc ->
-        Enum.into(%{rotation: Enum.random(1..360)}, acc)
+  def shape(opts, size, attrs) when is_list(opts) do
+    example =
+      Enum.reduce(opts, %{}, fn
+        :color, acc -> Enum.into(%{color: color()}, acc)
+        :height, acc -> Enum.into(%{height: Enum.random(10..100)}, acc)
+        :opacity, acc -> Enum.into(%{opacity: Enum.random(20..100)}, acc)
+        :rotation, acc -> Enum.into(%{rotation: Enum.random(1..360)}, acc)
+        :variety, acc -> Enum.into(%{variety: Enum.random(Shape.varieties())}, acc)
+        :x, acc -> Enum.into(%{x: Enum.random(1..size)}, acc)
+        :width, acc -> Enum.into(%{width: Enum.random(20..100)}, acc)
+        :y, acc -> Enum.into(%{y: Enum.random(1..size)}, acc)
+        _, acc -> acc
+      end)
 
-      :variety, acc ->
-        Enum.into(%{variety: Enum.random(Shape.varieties)}, acc)
-
-      :width, acc ->
-        Enum.into(%{width: Enum.random(1..100)}, acc)
-
-      _, acc ->
-        acc
-    end)
     Enum.reduce(attrs, example, fn {key, value}, acc ->
       Map.merge(acc, %{key => value})
     end)

@@ -90,6 +90,8 @@ defmodule EnigmaWeb do
       import EnigmaWeb.ErrorHelpers
       import EnigmaWeb.Gettext
       alias EnigmaWeb.Router.Helpers, as: Routes
+
+      import ExCssHelper
     end
   end
 

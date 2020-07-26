@@ -1,5 +1,5 @@
 defmodule Enigma.ShapeTest do
-  use Enigma.DataCase
+  use Enigma.DataCase, async: true
 
   alias Enigma.Covers.{Example, Shape}
 
@@ -40,6 +40,6 @@ defmodule Enigma.ShapeTest do
   end
 
   defp shape(map \\ %{}) do
-    Example.shape(:all, map)
+    Example.shape(:all, 100, map)
   end
 end
