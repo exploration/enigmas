@@ -13,10 +13,16 @@ defmodule EnigmaWeb.CoverLive do
 
   @impl true
   def handle_params(params, _uri, socket) do
+    IO.inspect params
     cover_count = String.to_integer(params["cover_count"] || "5")
     size = String.to_integer(params["size"] || "50")
+    style = params["style"] || "rectangle"
     socket = 
-      assign(socket, cover_count: cover_count, size: size)
+      assign(socket, 
+        cover_count: cover_count, 
+        size: size,
+        style: style
+      )
       |> create_covers()
     {:noreply, socket}
   end
@@ -25,12 +31,14 @@ defmodule EnigmaWeb.CoverLive do
   def handle_event("refresh", params, socket) do
     cover_count = String.to_integer(params["cover_count"])
     size = String.to_integer(params["size"])
+    style = params["style"]
     socket = push_patch(socket,
       to: Routes.cover_path(
         socket,
         :index,
         cover_count: cover_count,
-        size: size
+        size: size,
+        style: style
       )
     )
     {:noreply, socket}
@@ -43,19 +51,35 @@ defmodule EnigmaWeb.CoverLive do
       <form phx-change="refresh" phx-submit="refresh">
         <div class="flex flex-wrap">
           <div class="w5 mr3">
+            <label for="cover_count" class="<%= xc("label") %>">
+              Cover Count
+            </label>
+            <input type="range" name="cover_count" value="<%= @cover_count %>" min="1" max="1000" class="w-100">
+            <div class="flex justify-between">
+              <div>1</div>
+              <div>1000</div>
+            </div>
+          </div>
+          <div class="w5 mr3">
             <label for="size" class="<%= xc("label") %>">
-            <input type="range" name="size" id="size" value="<%= @size %>" min="10" max="500" class="w-100">
+              Size
+            </label>
+            <input type="range" name="size" value="<%= @size %>" min="10" max="500" class="w-100">
             <div class="flex justify-between">
               <div>10</div>
               <div>500</div>
             </div>
           </div>
-          <div class="w5 mr3">
-            <label for="cover_count" class="<%= xc("label") %>">
-            <input type="range" name="cover_count" id="cover_count" value="<%= @cover_count %>" min="1" max="1000" class="w-100">
-            <div class="flex justify-between">
-              <div>1</div>
-              <div>1000</div>
+          <div class="mr3">
+            <div class="flex">
+              <label class="flex mr3 <%= xc "label" %>">
+                <input type="radio" name="style" value="circle" class="mr1 w-100" <%= if @style == "circle", do: "checked=\"checked\"" %>>
+                Circle
+              </label>
+              <label class="flex <%= xc "label" %>">
+                <input type="radio" name="style" value="rectangle" class="mr1 w-100" <%= if @style == "rectangle", do: "checked=\"checked\"" %>>
+                Rectangle
+              </label>
             </div>
           </div>
           <div class="mt3">
@@ -65,7 +89,11 @@ defmodule EnigmaWeb.CoverLive do
       </form>
       <div class="mt3">
         <%= for cover <- @covers do %>
-          <%= raw Renderer.render_cover_rectangle(cover) %>
+          <%= if @style == "rectangle" do %>
+            <%= raw Renderer.render_cover_rectangle(cover) %>
+          <% else %>
+            <%= raw Renderer.render_cover_circle(cover) %>
+          <% end %>
         <% end %>
       </div>
     </section>
