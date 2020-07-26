@@ -75,8 +75,12 @@ defmodule Enigma.Covers.Example do
     end)
 
     Map.merge(example, %{shapes:
-      Enum.map(1..example.shape_count, fn _i ->
-        shape(:all)
+      Enum.map(1..example.shape_count, fn i ->
+        if example.shape_count > 1 and i == 1 do
+          shape :all, color: "#F79421"
+        else
+          shape :all
+        end
       end)
     })
   end
