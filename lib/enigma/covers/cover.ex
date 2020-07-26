@@ -33,7 +33,7 @@ defmodule Enigma.Covers.Cover do
   @doc "Convert a Base64-encoded string into a %Cover{}"
   def decode64(blob) when is_binary(blob) do
     blob
-    |> Base.decode64!
+    |> Base.url_decode64!
     |> Jason.decode!
     |> create
   end
@@ -42,6 +42,6 @@ defmodule Enigma.Covers.Cover do
   def encode64(%__MODULE__{} = cover) do
     cover
     |> Jason.encode!
-    |> Base.encode64
+    |> Base.url_encode64
   end
 end

@@ -96,12 +96,18 @@ defmodule EnigmaWeb.CoverLive do
     """
   end
 
-
   defp create_covers(socket) do
-    covers = Enum.map 1..socket.assigns.cover_count, fn _i ->
-      {:ok, cover} = Cover.create Example.cover(:all, size: socket.assigns.size)
-      cover
+    if socket.assigns[:previous_size] && socket.assigns.previous_size != socket.assigns.size do
+      covers = Enum.map socket.assigns.covers, fn cover ->
+        %{cover | size: socket.assigns.size}
+      end
+      assign(socket, previous_size: socket.assigns.size, covers: covers)
+    else
+      covers = Enum.map 1..socket.assigns.cover_count, fn _i ->
+        {:ok, cover} = Cover.create Example.cover(:all, size: socket.assigns.size)
+        cover
+      end
+      assign(socket, previous_size: socket.assigns.size, covers: covers)
     end
-    assign(socket, covers: covers)
   end
 end
