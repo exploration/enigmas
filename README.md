@@ -1,6 +1,6 @@
 # Enigma
 
-Tools and utilites to manage Enigmas. Currently: 
+Tools and utilities to manage Enigmas. Currently: 
 
 - An Engima "cover image generator".
 
