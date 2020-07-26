@@ -104,5 +104,5 @@ defmodule Enigma.Covers.Renderer do
     Integer.floor_div(max, ratio)
   end
   
-  defp n(percentage, cover), do: normalize(percentage, cover.size)
+  defp n(percentage, %Cover{} = cover), do: normalize(percentage, cover.size)
 end
