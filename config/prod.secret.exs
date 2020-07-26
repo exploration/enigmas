@@ -16,6 +16,13 @@ config :enigma, Enigma.Repo,
   url: database_url,
   pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10")
 
+app_url =
+  System.get_env("APP_URL") ||
+    raise """
+    environment variable APP_URL is missing.
+    for example: os.ploration.org
+    """
+
 secret_key_base =
   System.get_env("SECRET_KEY_BASE") ||
     raise """
@@ -24,8 +31,11 @@ secret_key_base =
     """
 
 config :enigma, EnigmaWeb.Endpoint,
-  http: [
-    port: String.to_integer(System.get_env("PORT") || "4000"),
+  url: [
+    host: app_url,
+    port: String.to_integer(System.get_env("PORT") || "80"),
+  ], http: [
+    port: String.to_integer(System.get_env("PORT") || "80"),
     transport_options: [socket_opts: [:inet6]]
   ],
   secret_key_base: secret_key_base
