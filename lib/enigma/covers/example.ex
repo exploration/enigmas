@@ -58,12 +58,11 @@ defmodule Enigma.Covers.Example do
   def cover(:all, attrs), do: cover([:shape_count, :size], attrs)
   def cover(opt, attrs) when is_atom(opt), do: cover([opt], attrs)
   def cover(opts, attrs) when is_list(opts) do
-    example =
-      Enum.reduce(opts, %{}, fn
-        :shape_count, acc -> Enum.into(%{shape_count: Enum.random(2..8)}, acc)
-        :size, acc -> Enum.into(%{size: Enum.random(100..400)}, acc)
-        _, acc -> acc
-      end)
+    example = Enum.reduce(opts, %{}, fn
+      :shape_count, acc -> Enum.into(%{shape_count: Enum.random(2..8)}, acc)
+      :size, acc -> Enum.into(%{size: Enum.random(100..400)}, acc)
+      _, acc -> acc
+    end)
 
     example = Enum.reduce(attrs, example, fn {key, value}, acc ->
       Map.merge(acc, %{key => value})
@@ -71,7 +70,7 @@ defmodule Enigma.Covers.Example do
 
     Map.merge(example, %{shapes:
       Enum.map(1..example.shape_count, fn _i ->
-        shape(:all, example.size)
+        shape(:all)
       end)
     })
   end
@@ -109,14 +108,14 @@ defmodule Enigma.Covers.Example do
           width: 4
       }
   """
-  def shape(opts, size, attrs \\ [])
+  def shape(opts, attrs \\ [])
 
-  def shape(:all, size, attrs),
-    do: shape([:color, :height, :opacity, :rotation, :variety, :x, :width, :y], size, attrs)
+  def shape(:all, attrs),
+    do: shape([:color, :height, :opacity, :rotation, :variety, :x, :width, :y], attrs)
 
-  def shape(opt, size, attrs) when is_atom(opt), do: shape([opt], size, attrs)
+  def shape(opt, attrs) when is_atom(opt), do: shape([opt], attrs)
 
-  def shape(opts, size, attrs) when is_list(opts) do
+  def shape(opts, attrs) when is_list(opts) do
     example =
       Enum.reduce(opts, %{}, fn
         :color, acc -> Enum.into(%{color: color()}, acc)
@@ -124,9 +123,9 @@ defmodule Enigma.Covers.Example do
         :opacity, acc -> Enum.into(%{opacity: Enum.random(20..100)}, acc)
         :rotation, acc -> Enum.into(%{rotation: Enum.random(1..90)}, acc)
         :variety, acc -> Enum.into(%{variety: Enum.random(Shape.varieties())}, acc)
-        :x, acc -> Enum.into(%{x: Enum.random(1..size)}, acc)
+        :x, acc -> Enum.into(%{x: Enum.random(1..100)}, acc)
         :width, acc -> Enum.into(%{width: Enum.random(25..100)}, acc)
-        :y, acc -> Enum.into(%{y: Enum.random(1..size)}, acc)
+        :y, acc -> Enum.into(%{y: Enum.random(1..100)}, acc)
         _, acc -> acc
       end)
 

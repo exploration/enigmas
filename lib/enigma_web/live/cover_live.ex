@@ -60,10 +60,10 @@ defmodule EnigmaWeb.CoverLive do
             <label for="size" class="<%= xc("label") %>">
               Size
             </label>
-            <input type="range" name="size" value="<%= @size %>" min="10" max="500" class="w-100">
+            <input type="range" name="size" value="<%= @size %>" min="10" max="750" class="w-100">
             <div class="flex justify-between">
               <div>10</div>
-              <div>500</div>
+              <div>750</div>
             </div>
           </div>
           <div class="mr5">

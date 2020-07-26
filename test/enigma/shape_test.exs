@@ -40,6 +40,6 @@ defmodule Enigma.ShapeTest do
   end
 
   defp shape(map \\ %{}) do
-    Example.shape(:all, 100, map)
+    Example.shape(:all, map)
   end
 end

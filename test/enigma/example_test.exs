@@ -5,7 +5,7 @@ defmodule Enigma.ExampleTest do
 
   test "shape generator" do
     Enum.each (0..1000), fn _ ->
-      assert {:ok, %Shape{}} = Shape.create(Example.shape(:all, 100))
+      assert {:ok, %Shape{}} = Shape.create(Example.shape(:all))
     end
   end
 
@@ -14,8 +14,6 @@ defmodule Enigma.ExampleTest do
       assert {:ok, %Cover{} = cover} = Cover.create(Example.cover(:all, size: 100))
       Enum.each cover.shapes, fn shape ->
         assert %Shape{} = shape
-        refute shape.x > cover.size
-        refute shape.y > cover.size
       end
     end
   end
