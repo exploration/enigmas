@@ -1,0 +1,59 @@
+<section class="pa3">
+  <form phx-change="refresh" phx-submit="refresh">
+    <div class="flex flex-wrap">
+      <div class="w5 mr4 mt2 mt0-ns">
+        <label for="cover_count" class="<%= xc("label") %>">
+          Cover Count: <%= @cover_count %>
+        </label>
+        <input type="range" name="cover_count" value="<%= @cover_count %>" min="1" max="1000" class="w-100">
+        <div class="flex justify-between">
+          <div>1</div>
+          <div>1000</div>
+        </div>
+      </div>
+      <div class="w5 mr4 mt2 mt0-ns">
+        <label for="shape_count" class="<%= xc("label") %>">
+          Shape Count: <%= @shape_count %>
+        </label>
+        <input type="range" name="shape_count" value="<%= @shape_count %>" min="1" max="40" class="w-100">
+        <div class="flex justify-between">
+          <div>1</div>
+          <div>40</div>
+        </div>
+      </div>
+      <div class="w5 mr4 mt2 mt0-ns">
+        <label for="size" class="<%= xc("label") %>">
+          Size: <%= @size %>
+        </label>
+        <input type="range" name="size" value="<%= @size %>" min="10" max="750" class="w-100">
+        <div class="flex justify-between">
+          <div>10</div>
+          <div>750</div>
+        </div>
+      </div>
+      <div class="mr5 mt2 mt0-ns">
+        <div class="<%= xc("label") %>">
+          Variety
+        </div>
+        <div class="flex">
+          <label class="flex mr3">
+            <input type="radio" name="variety" value="circle" class="mr1 w-100" <%= if @variety == "circle", do: "checked=\"checked\"" %>>
+            Circle
+          </label>
+          <label class="flex">
+            <input type="radio" name="variety" value="square" class="mr1 w-100" <%= if @variety == "square", do: "checked=\"checked\"" %>>
+            Square
+          </label>
+        </div>
+      </div>
+      <div class="mt3">
+        <button class="<%= xc "btn-s-white", replace: [{"pv1 ph4 ph5-ns", "pv2 ph3"}, {"x-oswald", "avenir"}] %>">Refresh</button>
+      </div>
+    </div>
+  </form>
+  <div class="mt4">
+    <%= for cover <- @covers do %>
+      <%= link raw(Renderer.render_cover(cover)), to: Routes.cover_download_path(@socket, :show, Cover.encode64(cover)), target: "enigma", class: "no-underline" %>
+    <% end %>
+  </div>
+</section>

@@ -64,7 +64,7 @@ defmodule Enigma.Covers.Example do
   def cover(opt, attrs) when is_atom(opt), do: cover([opt], attrs)
   def cover(opts, attrs) when is_list(opts) do
     example = Enum.reduce(opts, %{}, fn
-      :shape_count, acc -> Enum.into(%{shape_count: Enum.random(2..8)}, acc)
+      :shape_count, acc -> Enum.into(%{shape_count: Enum.random(5..20)}, acc)
       :size, acc -> Enum.into(%{size: Enum.random(100..400)}, acc)
       :variety, acc -> Enum.into(%{variety: Enum.random(Cover.varieties())}, acc)
       _, acc -> acc
@@ -126,7 +126,7 @@ defmodule Enigma.Covers.Example do
       Enum.reduce(opts, %{}, fn
         :color, acc -> Enum.into(%{color: color()}, acc)
         :height, acc -> Enum.into(%{height: Enum.random(25..100)}, acc)
-        :opacity, acc -> Enum.into(%{opacity: Enum.random(20..100)}, acc)
+        :opacity, acc -> Enum.into(%{opacity: Enum.random(10..100)}, acc)
         :rotation, acc -> Enum.into(%{rotation: Enum.random(1..90)}, acc)
         :variety, acc -> Enum.into(%{variety: Enum.random(Shape.varieties())}, acc)
         :x, acc -> Enum.into(%{x: Enum.random(1..100)}, acc)
