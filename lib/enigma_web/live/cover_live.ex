@@ -19,10 +19,10 @@ defmodule EnigmaWeb.CoverLive do
         <div class="flex flex-wrap">
           <div class="w5 mr3">
             <%= label f, :size, class: xc("label") %>
-            <%= range_input f, :size, value: @size, min: 25, max: 250, class: "w-100" %>
+            <%= range_input f, :size, value: @size, min: 10, max: 500, class: "w-100" %>
             <div class="flex justify-between">
-              <div>25</div>
-              <div>250</div>
+              <div>10</div>
+              <div>500</div>
             </div>
           </div>
           <div class="w5 mr3">
@@ -40,7 +40,7 @@ defmodule EnigmaWeb.CoverLive do
       </form>
       <div class="mt3">
         <%= for cover <- @covers do %>
-          <%= raw Renderer.render_cover(cover) %>
+          <%= raw Renderer.render_cover_rectangle(cover) %>
         <% end %>
       </div>
     </section>
