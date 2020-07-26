@@ -9,12 +9,8 @@ defmodule Enigma.Covers.Renderer do
          stroke="#233E52" 
          stroke-width="1.5%"
          fill="#FFF">
-       <clipPath id="clip-text">
-          <ellipse cx="50%" 
-                   cy="50%" 
-                   rx="50%" 
-                   ry="50%" 
-          />
+      <clipPath id="clip-text">
+        <ellipse cx="50%" cy="50%" rx="50%" ry="50%" />
       </clipPath>
       <ellipse cx="50%" 
                cy="50%" 

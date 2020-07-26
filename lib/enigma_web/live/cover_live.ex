@@ -12,22 +12,47 @@ defmodule EnigmaWeb.CoverLive do
   end
 
   @impl true
+  def handle_params(params, _uri, socket) do
+    cover_count = String.to_integer(params["cover_count"] || "5")
+    size = String.to_integer(params["size"] || "50")
+    socket = 
+      assign(socket, cover_count: cover_count, size: size)
+      |> create_covers()
+    {:noreply, socket}
+  end
+
+  @impl true
+  def handle_event("refresh", params, socket) do
+    cover_count = String.to_integer(params["cover_count"])
+    size = String.to_integer(params["size"])
+    socket = push_patch(socket,
+      to: Routes.cover_path(
+        socket,
+        :index,
+        cover_count: cover_count,
+        size: size
+      )
+    )
+    {:noreply, socket}
+  end
+
+  @impl true
   def render(assigns) do
     ~L"""
     <section class="pa3">
-      <%= f = form_for :adjustments, "#", phx_change: "refresh", phx_submit: "refresh" %>
+      <form phx-change="refresh" phx-submit="refresh">
         <div class="flex flex-wrap">
           <div class="w5 mr3">
-            <%= label f, :size, class: xc("label") %>
-            <%= range_input f, :size, value: @size, min: 10, max: 500, class: "w-100" %>
+            <label for="size" class="<%= xc("label") %>">
+            <input type="range" name="size" id="size" value="<%= @size %>" min="10" max="500" class="w-100">
             <div class="flex justify-between">
               <div>10</div>
               <div>500</div>
             </div>
           </div>
           <div class="w5 mr3">
-            <%= label f, :cover_count, class: xc("label") %>
-            <%= range_input f, :cover_count, value: @cover_count, min: 1, max: 1000, class: "w-100" %>
+            <label for="cover_count" class="<%= xc("label") %>">
+            <input type="range" name="cover_count" id="cover_count" value="<%= @cover_count %>" min="1" max="1000" class="w-100">
             <div class="flex justify-between">
               <div>1</div>
               <div>1000</div>
@@ -47,16 +72,6 @@ defmodule EnigmaWeb.CoverLive do
     """
   end
 
-  @impl true
-  def handle_event("refresh", %{"adjustments" => adjustments}, socket) do
-    socket = 
-      assign(socket, 
-        cover_count: String.to_integer(adjustments["cover_count"]),
-        size: String.to_integer(adjustments["size"])
-      )
-      |> create_covers()
-    {:noreply, socket}
-  end
 
   defp create_covers(socket) do
     covers = Enum.map 1..socket.assigns.cover_count, fn _i ->
