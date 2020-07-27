@@ -10,10 +10,10 @@ defmodule EnigmaWeb.CoverLive do
 
   @impl true
   def handle_params(params, _uri, socket) do
-    cover_count = String.to_integer(params["cover_count"] || "5")
+    cover_count = String.to_integer(params["cover_count"] || "15")
     shape_count = String.to_integer(params["shape_count"] || "5")
-    size = String.to_integer(params["size"] || "50")
-    variety = params["variety"] || "square"
+    size = String.to_integer(params["size"] || "150")
+    variety = params["variety"] || "circle"
     socket = 
       assign(socket, 
         cover_count: cover_count, 
