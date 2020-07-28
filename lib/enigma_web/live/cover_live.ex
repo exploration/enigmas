@@ -12,7 +12,7 @@ defmodule EnigmaWeb.CoverLive do
   def handle_params(params, _uri, socket) do
     cover_count = String.to_integer(params["cover_count"] || "15")
     shape_count = String.to_integer(params["shape_count"] || "5")
-    size = String.to_integer(params["size"] || "150")
+    size = String.to_integer(params["size"] || "300")
     variety = params["variety"] || "circle"
     socket = 
       assign(socket, 
