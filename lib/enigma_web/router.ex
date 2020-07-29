@@ -17,8 +17,8 @@ defmodule EnigmaWeb.Router do
   scope "/", EnigmaWeb do
     pipe_through :browser
 
-    live "/", CoverLive, :index
-    get "/cover/:id", CoverDownloadController, :show
+    live "/", IconLive, :index
+    get "/icon/:id", IconDownloadController, :show
   end
 
   # Other scopes may use custom stacks.

@@ -1,7 +1,7 @@
 defmodule Enigma.ShapeTest do
   use Enigma.DataCase, async: true
 
-  alias Enigma.Covers.{Example, Shape}
+  alias Enigma.Icons.{Example, Shape}
 
   test "validate color format" do
     assert {:ok, %Shape{}} = Shape.create(shape())

@@ -1,8 +1,8 @@
-defmodule Enigma.Covers.Example do
-  alias Enigma.Covers.{Cover,Shape}
+defmodule Enigma.Icons.Example do
+  alias Enigma.Icons.{Icon,Shape}
 
   @moduledoc """
-  Example parameter generators for various Enigma / Cover-related tasks
+  Example parameter generators for various Enigma / Icon-related tasks
   """
 
   @doc """
@@ -28,22 +28,22 @@ defmodule Enigma.Covers.Example do
   end
 
   @doc """
-  Given a list of example %Cover{} field names, returns an example map that contains matching valid attributes.
+  Given a list of example %Icon{} field names, returns an example map that contains matching valid attributes.
 
   Takes an optional second parameter, which is a keyword list of manual overrides for specific fields (which would typically be used with the `:all` option).
 
   ## Examples
 
-      iex> cover :size
+      iex> icon :size
       %{size: 82}
 
-      iex> cover [:size, :shape_count]
+      iex> icon [:size, :shape_count]
       %{
         size: 20, 
         shape_count: 3
       }
 
-      iex> cover :all
+      iex> icon :all
       %{
         size: 82,
         shape_count: 3,
@@ -51,7 +51,7 @@ defmodule Enigma.Covers.Example do
         variety: "square"
       }
 
-      iex> cover :all, size: 100
+      iex> icon :all, size: 100
       %{
         size: 100,
         shape_count: 3,
@@ -59,14 +59,14 @@ defmodule Enigma.Covers.Example do
         variety: "square"
       }
   """
-  def cover(opts, attrs \\ [])
-  def cover(:all, attrs), do: cover([:shape_count, :size, :variety], attrs)
-  def cover(opt, attrs) when is_atom(opt), do: cover([opt], attrs)
-  def cover(opts, attrs) when is_list(opts) do
+  def icon(opts, attrs \\ [])
+  def icon(:all, attrs), do: icon([:shape_count, :size, :variety], attrs)
+  def icon(opt, attrs) when is_atom(opt), do: icon([opt], attrs)
+  def icon(opts, attrs) when is_list(opts) do
     example = Enum.reduce(opts, %{}, fn
       :shape_count, acc -> Enum.into(%{shape_count: Enum.random(5..20)}, acc)
       :size, acc -> Enum.into(%{size: Enum.random(100..400)}, acc)
-      :variety, acc -> Enum.into(%{variety: Enum.random(Cover.varieties())}, acc)
+      :variety, acc -> Enum.into(%{variety: Enum.random(Icon.varieties())}, acc)
       _, acc -> acc
     end)
 

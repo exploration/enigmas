@@ -1,4 +1,4 @@
-defmodule EnigmaWeb.CoverLiveTest do
+defmodule EnigmaWeb.IconLiveTest do
   use EnigmaWeb.ConnCase, async: true
 
   import Phoenix.LiveViewTest

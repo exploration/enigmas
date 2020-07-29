@@ -1,7 +1,7 @@
 defmodule Enigma.ExampleTest do
   use Enigma.DataCase, async: true
 
-  alias Enigma.Covers.{Cover, Example, Shape}
+  alias Enigma.Icons.{Icon, Example, Shape}
 
   test "shape generator" do
     Enum.each (0..1000), fn _ ->
@@ -9,10 +9,10 @@ defmodule Enigma.ExampleTest do
     end
   end
 
-  test "cover generator, with embedded shapes" do
+  test "icon generator, with embedded shapes" do
     Enum.each (0..1000), fn _ ->
-      assert {:ok, %Cover{} = cover} = Cover.create(Example.cover(:all, size: 100))
-      Enum.each cover.shapes, fn shape ->
+      assert {:ok, %Icon{} = icon} = Icon.create(Example.icon(:all, size: 100))
+      Enum.each icon.shapes, fn shape ->
         assert %Shape{} = shape
       end
     end

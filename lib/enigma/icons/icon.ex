@@ -1,9 +1,9 @@
-defmodule Enigma.Covers.Cover do
-  @derive Jason.Encoder
+defmodule Enigma.Icons.Icon do
   use Ecto.Schema
   import Ecto.Changeset
-  alias Enigma.Covers.Shape
+  alias Enigma.Icons.Shape
 
+  @derive Jason.Encoder
   @primary_key false
 
   embedded_schema do
@@ -23,16 +23,16 @@ defmodule Enigma.Covers.Cover do
   end
 
   @doc """
-  Given a map of attrs, create a `%Cover{}`.
+  Given a map of attrs, create a `%Icon{}`.
 
-  Returns `{:ok, %Cover{}}` on success, `{:error, %Ecto.Changeset}` on error. See `Ecto.Changeset.apply_action/2` for more detail.
+  Returns `{:ok, %Icon{}}` on success, `{:error, %Ecto.Changeset}` on error. See `Ecto.Changeset.apply_action/2` for more detail.
   """
   def create(attrs) do
     changeset(%__MODULE__{}, attrs)
     |> apply_action(:create)
   end
 
-  @doc "Convert a Base64-encoded string into a %Cover{}"
+  @doc "Convert a Base64-encoded string into an %Icon{}"
   def decode64(blob) when is_binary(blob) do
     blob
     |> Base.url_decode64!
@@ -40,9 +40,9 @@ defmodule Enigma.Covers.Cover do
     |> create
   end
 
-  @doc "Convert a %Cover{} into a Base64-encoded string"
-  def encode64(%__MODULE__{} = cover) do
-    cover
+  @doc "Convert an %Icon{} into a Base64-encoded string"
+  def encode64(%__MODULE__{} = icon) do
+    icon
     |> Jason.encode!
     |> Base.url_encode64
   end
