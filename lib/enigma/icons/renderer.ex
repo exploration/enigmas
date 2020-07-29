@@ -5,15 +5,20 @@ defmodule Enigma.Icons.Renderer do
     """
     <svg version="1.1"
          xmlns="http://www.w3.org/2000/svg"
-         width="#{icon.size}" 
-         height="#{icon.size}" 
-         viewBox="0 0 #{icon.size} #{icon.size}" 
+         width="#{icon.width}" 
+         height="#{icon.height}" 
+         viewBox="0 0 #{icon.width} #{icon.height}" 
          stroke="#233E52" 
          stroke-linejoin="round"
          stroke-width="2%"
          fill="#FFF">
       <clipPath id="clip-text">
-        <ellipse cx="50%" cy="50%" rx="50%" ry="50%" fill-opacity="0" />
+        <ellipse cx="50%" 
+                 cy="50%"
+                 rx="50%" 
+                 ry="50%" 
+                 fill-opacity="0" 
+        />
       </clipPath>
       <ellipse cx="50%" 
                cy="50%" 
@@ -30,17 +35,17 @@ defmodule Enigma.Icons.Renderer do
     """
     <svg version="1.1"
          xmlns="http://www.w3.org/2000/svg"
-         width="#{icon.size}" 
-         height="#{icon.size}" 
-         viewBox="0 0 #{icon.size} #{icon.size}" 
+         width="#{icon.width}" 
+         height="#{icon.height}" 
+         viewBox="0 0 #{icon.width} #{icon.height}" 
          stroke="#233E52" 
          stroke-linejoin="round"
          stroke-width="2%"
          fill="#FFF">
       <rect x="0" 
             y="0" 
-            width="#{icon.size}"
-            height="#{icon.size}"
+            width="100%"
+            height="100%"
             stroke-width="8%"
             rx="5%"
             ry="5%" 
@@ -52,40 +57,43 @@ defmodule Enigma.Icons.Renderer do
 
   def render_shape(%Icon{} = icon, %Shape{variety: "rectangle"} = shape) do
     """
-    <rect x="#{n shape.x, icon}" 
-          y="#{n shape.y, icon}" 
+    #{if icon.variety == "circle", do: "<g clip-path=\"url(#clip-text)\">"}
+    <rect x="#{n shape.x, icon.width}" 
+          y="#{n shape.y, icon.height}" 
           width="#{shape.width}%" 
           height="#{shape.height}%" 
           fill="#{shape.color}" 
           fill-opacity="#{shape.opacity}%" 
-          transform="rotate(#{shape.rotation} #{icon.size / 2}, #{icon.size / 2})" 
-          #{if icon.variety == "circle", do: "clip-path=\"url(#clip-text)\""}
+          transform="rotate(#{shape.rotation} #{icon.width / 2}, #{icon.height / 2})" 
     />
+    #{if icon.variety == "circle", do: "</g>"}
     """
   end
 
   def render_shape(%Icon{} = icon, %Shape{variety: "ellipse"} = shape) do
     """
-    <ellipse cx="#{n shape.x, icon}" 
-             cy="#{n shape.y, icon}" 
-             rx="#{n(shape.width, icon) / 2}" 
-             ry="#{n(shape.height, icon) / 2}" 
+    #{if icon.variety == "circle", do: "<g clip-path=\"url(#clip-text)\">"}
+    <ellipse cx="#{n shape.x, icon.width}" 
+             cy="#{n shape.y, icon.height}" 
+             rx="#{n(shape.width, icon.width) / 2}" 
+             ry="#{n(shape.height, icon.height) / 2}" 
              fill="#{shape.color}" 
              fill-opacity="#{shape.opacity}%" 
-             transform="rotate(#{shape.rotation} #{icon.size / 2}, #{icon.size / 2})"
-             #{if icon.variety == "circle", do: "clip-path=\"url(#clip-text)\""}
+             transform="rotate(#{shape.rotation} #{icon.width / 2}, #{icon.height / 2})"
     />
+    #{if icon.variety == "circle", do: "</g>"}
     """
   end
 
   def render_shape(%Icon{} = icon, %Shape{variety: "triangle"} = shape) do
     """
-    <polygon points="#{n shape.x, icon},#{n shape.y, icon} #{n(shape.x,icon) - n(shape.width, icon)},#{n shape.y,icon} #{n shape.x,icon},#{n(shape.y,icon) - n(shape.height,icon)}" 
+    #{if icon.variety == "circle", do: "<g clip-path=\"url(#clip-text)\">"}
+    <polygon points="#{n shape.x, icon.width},#{n shape.y, icon.height} #{n(shape.x,icon.width) - n(shape.width, icon.width)},#{n shape.y,icon.height} #{n shape.x,icon.height},#{n(shape.y,icon.height) - n(shape.height,icon.height)}" 
              fill="#{shape.color}" 
              fill-opacity="#{shape.opacity}%" 
-             transform="rotate(#{shape.rotation} #{icon.size / 2}, #{icon.size / 2})" 
-             #{if icon.variety == "circle", do: "clip-path=\"url(#clip-text)\""}
+             transform="rotate(#{shape.rotation} #{icon.width / 2}, #{icon.height / 2})" 
     />
+    #{if icon.variety == "circle", do: "</g>"}
     """
   end
 
@@ -103,6 +111,6 @@ defmodule Enigma.Icons.Renderer do
     ratio = Integer.floor_div(100, percentage)
     Integer.floor_div(max, ratio)
   end
-  
-  defp n(percentage, %Icon{} = icon), do: normalize(percentage, icon.size)
+
+  def n(percentage, max), do: normalize(percentage, max)
 end

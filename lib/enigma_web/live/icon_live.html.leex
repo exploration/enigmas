@@ -1,6 +1,18 @@
 <section class="pa3">
   <form phx-change="refresh" phx-submit="refresh">
     <div class="flex flex-wrap">
+      <div class="w4 mr4 mt2 mt0-ns">
+        <label for="height" class="<%= xc("label") %>">
+          Height
+        </label>
+        <input type="number" name="height" value="<%= @height %>" phx-debounce="500" class="<%= xc "input-text" %>">
+      </div>
+      <div class="w4 mr4 mt2 mt0-ns">
+        <label for="width" class="<%= xc("label") %>">
+          Width
+        </label>
+        <input type="number" name="width" value="<%= @width %>" phx-debounce="500" class="<%= xc "input-text" %>">
+      </div>
       <div class="w5 mr4 mt2 mt0-ns">
         <label for="icon_count" class="<%= xc("label") %>">
           Icon Count: <%= @icon_count %>
@@ -19,16 +31,6 @@
         <div class="flex justify-between">
           <div>1</div>
           <div>40</div>
-        </div>
-      </div>
-      <div class="w5 mr4 mt2 mt0-ns">
-        <label for="size" class="<%= xc("label") %>">
-          Size: <%= @size %>
-        </label>
-        <input type="range" name="size" value="<%= @size %>" min="10" max="750" class="w-100">
-        <div class="flex justify-between">
-          <div>10</div>
-          <div>750</div>
         </div>
       </div>
       <div class="mr5 mt2 mt0-ns">

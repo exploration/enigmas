@@ -34,39 +34,42 @@ defmodule Enigma.Icons.Example do
 
   ## Examples
 
-      iex> icon :size
-      %{size: 82}
+      iex> icon :height
+      %{height: 82}
 
-      iex> icon [:size, :shape_count]
+      iex> icon [:height, :shape_count]
       %{
-        size: 20, 
+        height: 20, 
         shape_count: 3
       }
 
       iex> icon :all
       %{
-        size: 82,
+        height: 82,
         shape_count: 3,
         shapes: [ %{...}, ... ]
         variety: "square"
+        width: 100,
       }
 
-      iex> icon :all, size: 100
+      iex> icon :all, width: 100
       %{
-        size: 100,
+        height: 44,
         shape_count: 3,
         shapes: [ %{...}, ... ],
         variety: "square"
+        width: 100,
       }
   """
   def icon(opts, attrs \\ [])
-  def icon(:all, attrs), do: icon([:shape_count, :size, :variety], attrs)
+  def icon(:all, attrs), do: icon([:height, :shape_count, :variety, :width], attrs)
   def icon(opt, attrs) when is_atom(opt), do: icon([opt], attrs)
   def icon(opts, attrs) when is_list(opts) do
     example = Enum.reduce(opts, %{}, fn
       :shape_count, acc -> Enum.into(%{shape_count: Enum.random(5..20)}, acc)
-      :size, acc -> Enum.into(%{size: Enum.random(100..400)}, acc)
+      :height, acc -> Enum.into(%{height: Enum.random(100..400)}, acc)
       :variety, acc -> Enum.into(%{variety: Enum.random(Icon.varieties())}, acc)
+      :width, acc -> Enum.into(%{width: Enum.random(100..400)}, acc)
       _, acc -> acc
     end)
 

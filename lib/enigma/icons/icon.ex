@@ -7,18 +7,19 @@ defmodule Enigma.Icons.Icon do
   @primary_key false
 
   embedded_schema do
+    field :height, :integer
     field :shape_count, :integer
-    field :size, :integer
     field :variety, :string
+    field :width, :integer
     embeds_many :shapes, Shape
   end
 
   @doc false
   def changeset(shape, attrs) do
     shape
-    |> cast(attrs, [:shape_count, :size, :variety])
+    |> cast(attrs, [:height, :shape_count, :variety, :width])
     |> cast_embed(:shapes)
-    |> validate_required([:shape_count, :size, :variety])
+    |> validate_required([:height, :shape_count, :variety, :width])
     |> validate_variety()
   end
 
