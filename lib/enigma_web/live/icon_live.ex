@@ -67,7 +67,7 @@ defmodule EnigmaWeb.IconLive do
         icons = Enum.map socket.assigns.icons, fn icon ->
           %{icon | width: socket.assigns.width}
         end
-        assign(socket, previous_height: socket.assigns.height, icons: icons)
+        assign(socket, previous_width: socket.assigns.width, icons: icons)
       true ->
         icons = Enum.map 1..socket.assigns.icon_count, fn _i ->
           {:ok, icon} = Icon.create Example.icon(:all, 
