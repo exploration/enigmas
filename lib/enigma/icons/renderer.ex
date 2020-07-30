@@ -10,7 +10,7 @@ defmodule Enigma.Icons.Renderer do
          viewBox="0 0 #{icon.width} #{icon.height}" 
          stroke="#233E52" 
          stroke-linejoin="round"
-         stroke-width="2%"
+         stroke-width="1%"
          fill="#FFF">
       <clipPath id="clip-text">
         <ellipse cx="50%" 
@@ -22,9 +22,9 @@ defmodule Enigma.Icons.Renderer do
       </clipPath>
       <ellipse cx="50%" 
                cy="50%" 
-               rx="48%" 
-               ry="48%" 
-               stroke-width="4%"
+               rx="49%" 
+               ry="49%" 
+               stroke-width="2%"
       />
       #{icon.shapes |> Enum.map(fn s -> render_shape(icon, s) end) |> Enum.join()}
     </svg>
@@ -40,15 +40,15 @@ defmodule Enigma.Icons.Renderer do
          viewBox="0 0 #{icon.width} #{icon.height}" 
          stroke="#233E52" 
          stroke-linejoin="round"
-         stroke-width="2%"
+         stroke-width="1%"
          fill="#FFF">
       <rect x="0" 
             y="0" 
             width="100%"
             height="100%"
-            stroke-width="8%"
-            rx="5%"
-            ry="5%" 
+            stroke-width="4%"
+            rx="2.5%"
+            ry="2.5%" 
       />
       #{icon.shapes |> Enum.map(fn s -> render_shape(icon, s) end) |> Enum.join()}
     </svg>
