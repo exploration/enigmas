@@ -60,10 +60,21 @@ defmodule EnigmaWeb.IconLive do
     {:noreply, socket}
   end
 
+  def handle_event("reset", _params, socket) do
+    socket = 
+      assign(socket, 
+        previous_height: nil,
+        previous_variety: nil,
+        previous_width: nil
+      )
+      |> push_patch(to: Routes.icon_path(socket, :index))
+    {:noreply, socket}
+  end
+
   defp create_icons(socket) do
     height_changed = socket.assigns[:previous_height] && socket.assigns.previous_height != socket.assigns.height 
-    width_changed = socket.assigns[:previous_width] && socket.assigns.previous_width != socket.assigns.width 
     variety_changed = socket.assigns[:previous_variety] && socket.assigns.previous_variety != socket.assigns.variety 
+    width_changed = socket.assigns[:previous_width] && socket.assigns.previous_width != socket.assigns.width 
     cond do
       height_changed ->
         icons = Enum.map socket.assigns.icons, fn icon ->
