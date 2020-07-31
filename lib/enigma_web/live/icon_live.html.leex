@@ -31,14 +31,18 @@
           <div>20</div>
         </div>
       </div>
-      <div class="w-100 mt3">
-        <label for="shape_count" class="<%= xc("label") %>">
-          Shape Count: <%= @shape_count %>
-        </label>
-        <input type="range" name="shape_count" value="<%= @shape_count %>" min="1" max="40" class="w-100">
-        <div class="flex justify-between">
-          <div>1</div>
-          <div>40</div>
+      <div class="mt3 flex flex-wrap">
+        <div class="w3 mr3">
+          <label for="fill_color" class="<%= xc("label") %>">
+            Fill Color
+          </label>
+          <input type="color" name="fill_color" value="<%= @fill_color %>" class="w-100">
+        </div>
+        <div class="w3 mr3">
+          <label for="stroke_color" class="<%= xc("label") %>">
+            Line Color
+          </label>
+          <input type="color" name="stroke_color" value="<%= @stroke_color %>" class="w-100">
         </div>
       </div>
       <div class="w-100 mt3">
@@ -56,21 +60,7 @@
           </label>
         </div>
       </div>
-      <div class="mt3 flex flex-wrap">
-        <div class="w3 mr3">
-          <label for="fill_color" class="<%= xc("label") %>">
-            Fill Color
-          </label>
-          <input type="color" name="fill_color" value="<%= @fill_color %>" class="w-100">
-        </div>
-        <div class="w3 mr3">
-          <label for="stroke_color" class="<%= xc("label") %>">
-            Line Color
-          </label>
-          <input type="color" name="stroke_color" value="<%= @stroke_color %>" class="w-100">
-        </div>
-      </div>
-      <div class="w-100 mt4">
+      <div class="w-100 mt5">
         <label for="icon_count" class="<%= xc("label") %>">
           Icon Count: <%= @icon_count %>
         </label>
@@ -80,7 +70,17 @@
           <div>1000</div>
         </div>
       </div>
-      <div class="mt4">
+      <div class="w-100 mt3">
+        <label for="shape_count" class="<%= xc("label") %>">
+          Shape Count: <%= @shape_count %>
+        </label>
+        <input type="range" name="shape_count" value="<%= @shape_count %>" min="1" max="40" class="w-100">
+        <div class="flex justify-between">
+          <div>1</div>
+          <div>40</div>
+        </div>
+      </div>
+      <div class="mt5">
         <button class="<%= xc "btn-s-white", replace: [{"pv1", "w-100 pv2"}, {"x-oswald", "avenir"}] %>">Refresh</button>
       </div>
       <div class="mt2">
