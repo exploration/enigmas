@@ -22,6 +22,16 @@
         </div>
       </div>
       <div class="w5 mr3 mt2 mt1-ns">
+        <label for="stroke_width" class="<%= xc("label") %>">
+          Line Width: <%= @stroke_width %>
+        </label>
+        <input type="range" name="stroke_width" value="<%= @stroke_width %>" min="0" max="20" class="w-100">
+        <div class="flex justify-between">
+          <div>0</div>
+          <div>20</div>
+        </div>
+      </div>
+      <div class="w5 mr3 mt2 mt1-ns">
         <label for="icon_count" class="<%= xc("label") %>">
           Icon Count: <%= @icon_count %>
         </label>

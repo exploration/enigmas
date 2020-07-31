@@ -11,10 +11,11 @@ defmodule EnigmaWeb.IconLive do
   @impl true
   def handle_params(params, _uri, socket) do
     fill_color = params["fill_color"] || "#FFFFFF"
-    icon_count = String.to_integer(params["icon_count"] || "15")
     height = get_dimension params, "height"
+    icon_count = String.to_integer(params["icon_count"] || "15")
     shape_count = String.to_integer(params["shape_count"] || "5")
     stroke_color = params["stroke_color"] || "#233E52"
+    stroke_width = String.to_integer(params["stroke_width"] || "2")
     width = get_dimension params, "width"
     variety = params["variety"] || "circle"
     socket = 
@@ -24,6 +25,7 @@ defmodule EnigmaWeb.IconLive do
         height: height,
         shape_count: shape_count,
         stroke_color: stroke_color,
+        stroke_width: stroke_width,
         variety: variety,
         width: width
       )
@@ -34,10 +36,11 @@ defmodule EnigmaWeb.IconLive do
   @impl true
   def handle_event("refresh", params, socket) do
     fill_color = params["fill_color"]
+    height = get_dimension params, "height"
     icon_count = String.to_integer(params["icon_count"])
     shape_count = String.to_integer(params["shape_count"])
     stroke_color = params["stroke_color"]
-    height = get_dimension params, "height"
+    stroke_width = String.to_integer(params["stroke_width"])
     variety = params["variety"]
     width = get_dimension params, "width"
     socket = push_patch(socket,
@@ -49,6 +52,7 @@ defmodule EnigmaWeb.IconLive do
         height: height,
         shape_count: shape_count,
         stroke_color: stroke_color,
+        stroke_width: stroke_width,
         variety: variety,
         width: width
       )
@@ -83,6 +87,7 @@ defmodule EnigmaWeb.IconLive do
             height: socket.assigns.height, 
             shape_count: socket.assigns.shape_count, 
             stroke_color: socket.assigns.stroke_color, 
+            stroke_width: socket.assigns.stroke_width, 
             variety: socket.assigns.variety,
             width: socket.assigns.width
           )

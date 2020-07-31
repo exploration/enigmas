@@ -45,29 +45,38 @@ defmodule Enigma.Icons.Example do
 
       iex> icon :all
       %{
+        fill_color: "#ABCDEF",
         height: 82,
         shape_count: 3,
         shapes: [ %{...}, ... ]
+        stroke_color: "#ABCDEF",
+        stroke_width: 3,
         variety: "square"
         width: 100,
       }
 
       iex> icon :all, width: 100
       %{
-        height: 44,
+        fill_color: "#ABCDEF",
+        height: 82,
         shape_count: 3,
-        shapes: [ %{...}, ... ],
+        shapes: [ %{...}, ... ]
+        stroke_color: "#ABCDEF",
+        stroke_width: 3,
         variety: "square"
         width: 100,
       }
   """
   def icon(opts, attrs \\ [])
-  def icon(:all, attrs), do: icon([:height, :shape_count, :variety, :width], attrs)
+  def icon(:all, attrs), do: icon([:fill_color, :height, :shape_count, :stroke_color, :stroke_width, :variety, :width], attrs)
   def icon(opt, attrs) when is_atom(opt), do: icon([opt], attrs)
   def icon(opts, attrs) when is_list(opts) do
     example = Enum.reduce(opts, %{}, fn
-      :shape_count, acc -> Enum.into(%{shape_count: Enum.random(5..20)}, acc)
+      :fill_color, acc -> Enum.into(%{fill_color: color()}, acc)
       :height, acc -> Enum.into(%{height: Enum.random(100..400)}, acc)
+      :shape_count, acc -> Enum.into(%{shape_count: Enum.random(5..20)}, acc)
+      :stroke_color, acc -> Enum.into(%{stroke_color: color()}, acc)
+      :stroke_width, acc -> Enum.into(%{stroke_width: Enum.random(2..6)}, acc)
       :variety, acc -> Enum.into(%{variety: Enum.random(Icon.varieties())}, acc)
       :width, acc -> Enum.into(%{width: Enum.random(100..400)}, acc)
       _, acc -> acc
