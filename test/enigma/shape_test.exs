@@ -10,28 +10,12 @@ defmodule Enigma.ShapeTest do
     assert {:error, %Ecto.Changeset{}} = Shape.create(shape color: "#FAFA")
   end
 
-  test "validate height" do
-    assert {:ok, %Shape{}} = Shape.create(shape height: 0)
-    assert {:error, %Ecto.Changeset{}} = Shape.create(shape height: 900)
-    assert {:error, %Ecto.Changeset{}} = Shape.create(shape height: -10)
-  end
-  
-  test "validate opacity" do
-    assert {:ok, %Shape{}} = Shape.create(shape opacity: 0)
-    assert {:error, %Ecto.Changeset{}} = Shape.create(shape opacity: 900)
-    assert {:error, %Ecto.Changeset{}} = Shape.create(shape opacity: -10)
-  end
-
-  test "validate rotation" do
-    assert {:ok, %Shape{}} = Shape.create(shape rotation: 0)
-    assert {:error, %Ecto.Changeset{}} = Shape.create(shape rotation: 900)
-    assert {:error, %Ecto.Changeset{}} = Shape.create(shape rotation: -10)
-  end
-
-  test "validate width" do
-    assert {:ok, %Shape{}} = Shape.create(shape width: 0)
-    assert {:error, %Ecto.Changeset{}} = Shape.create(shape width: 900)
-    assert {:error, %Ecto.Changeset{}} = Shape.create(shape width: -10)
+  test "validate percentage fields" do
+    Enum.each [:height, :opacity, :rotation, :x, :width, :y], fn field ->
+      assert {:ok, %Shape{}} = Shape.create(shape [{field, 0}])
+      assert {:error, %Ecto.Changeset{}} = Shape.create(shape [{field, 900}])
+      assert {:error, %Ecto.Changeset{}} = Shape.create(shape [{field, -10}])
+    end
   end
 
   test "validate variety" do

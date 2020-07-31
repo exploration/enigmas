@@ -4,6 +4,7 @@ defmodule Enigma.Icons.Shape do
   import Ecto.Changeset
 
   @primary_key false
+  @hex_regex ~r/^#([[:xdigit:]]{3}){1,2}$/
 
   embedded_schema do
     field :color, :string
@@ -21,11 +22,13 @@ defmodule Enigma.Icons.Shape do
     shape
     |> cast(attrs, [:color, :height, :opacity, :rotation, :variety, :x, :width, :y, ])
     |> validate_required([:color, :height, :opacity, :rotation, :variety, :x, :width, :y, ])
-    |> validate_format(:color, ~r/^#([[:xdigit:]]{3}){1,2}$/)
+    |> validate_format(:color, @hex_regex)
     |> validate_number(:height, greater_than_or_equal_to: 0, less_than_or_equal_to: 100)
     |> validate_number(:opacity, greater_than_or_equal_to: 0, less_than_or_equal_to: 100)
     |> validate_number(:rotation, greater_than_or_equal_to: 0, less_than_or_equal_to: 360)
+    |> validate_number(:x, greater_than_or_equal_to: 0, less_than_or_equal_to: 100)
     |> validate_number(:width, greater_than_or_equal_to: 0, less_than_or_equal_to: 100)
+    |> validate_number(:y, greater_than_or_equal_to: 0, less_than_or_equal_to: 100)
     |> validate_variety()
   end
 

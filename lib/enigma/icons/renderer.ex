@@ -8,10 +8,10 @@ defmodule Enigma.Icons.Renderer do
          width="#{icon.width}" 
          height="#{icon.height}" 
          viewBox="0 0 #{icon.width} #{icon.height}" 
-         stroke="#233E52" 
+         stroke="#{icon.stroke_color}" 
          stroke-linejoin="round"
          stroke-width="1%"
-         fill="#FFF">
+         fill="#{icon.fill_color}">
       <clipPath id="clip-text">
         <ellipse cx="50%" 
                  cy="50%"
@@ -38,10 +38,10 @@ defmodule Enigma.Icons.Renderer do
          width="#{icon.width}" 
          height="#{icon.height}" 
          viewBox="0 0 #{icon.width} #{icon.height}" 
-         stroke="#233E52" 
+         stroke="#{icon.stroke_color}" 
          stroke-linejoin="round"
          stroke-width="1%"
-         fill="#FFF">
+         fill="#{icon.fill_color}">
       <rect x="0" 
             y="0" 
             width="100%"

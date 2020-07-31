@@ -5,10 +5,13 @@ defmodule Enigma.Icons.Icon do
 
   @derive Jason.Encoder
   @primary_key false
+  @hex_regex ~r/^#([[:xdigit:]]{3}){1,2}$/
 
   embedded_schema do
+    field :fill_color, :string, default: "#FFF"
     field :height, :integer
     field :shape_count, :integer
+    field :stroke_color, :string, default: "#233E52"
     field :variety, :string
     field :width, :integer
     embeds_many :shapes, Shape
@@ -17,9 +20,11 @@ defmodule Enigma.Icons.Icon do
   @doc false
   def changeset(shape, attrs) do
     shape
-    |> cast(attrs, [:height, :shape_count, :variety, :width])
+    |> cast(attrs, [:fill_color, :height, :shape_count, :stroke_color, :variety, :width])
     |> cast_embed(:shapes)
     |> validate_required([:height, :shape_count, :variety, :width])
+    |> validate_format(:fill_color, @hex_regex)
+    |> validate_format(:stroke_color, @hex_regex)
     |> validate_variety()
   end
 
