@@ -83,7 +83,7 @@ defmodule EnigmaWeb.IconLive do
         assign(socket, previous_height: socket.assigns.height, icons: icons)
       stroke_width_changed ->
         icons = Enum.map socket.assigns.icons, fn icon -> %{icon | stroke_width: socket.assigns.stroke_width} end
-        assign(socket, previous_variety: socket.assigns.variety, icons: icons)
+        assign(socket, previous_stroke_width: socket.assigns.stroke_width, icons: icons)
       variety_changed ->
         icons = Enum.map socket.assigns.icons, fn icon -> %{icon | variety: socket.assigns.variety} end
         assign(socket, previous_variety: socket.assigns.variety, icons: icons)
