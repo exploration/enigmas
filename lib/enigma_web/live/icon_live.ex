@@ -63,7 +63,9 @@ defmodule EnigmaWeb.IconLive do
   def handle_event("reset", _params, socket) do
     socket = 
       assign(socket, 
+        previous_fill_color: nil,
         previous_height: nil,
+        previous_stroke_color: nil,
         previous_stroke_width: nil,
         previous_variety: nil,
         previous_width: nil
@@ -73,14 +75,22 @@ defmodule EnigmaWeb.IconLive do
   end
 
   defp create_icons(socket) do
+    fill_color_changed = socket.assigns[:previous_fill_color] && socket.assigns.previous_fill_color != socket.assigns.fill_color 
     height_changed = socket.assigns[:previous_height] && socket.assigns.previous_height != socket.assigns.height 
+    stroke_color_changed = socket.assigns[:previous_stroke_color] && socket.assigns.previous_stroke_color != socket.assigns.stroke_color 
     stroke_width_changed = socket.assigns[:previous_stroke_width] && socket.assigns.previous_stroke_width != socket.assigns.stroke_width 
     variety_changed = socket.assigns[:previous_variety] && socket.assigns.previous_variety != socket.assigns.variety 
     width_changed = socket.assigns[:previous_width] && socket.assigns.previous_width != socket.assigns.width 
     cond do
+      fill_color_changed ->
+        icons = Enum.map socket.assigns.icons, fn icon -> %{icon | fill_color: socket.assigns.fill_color} end
+        assign(socket, previous_fill_color: socket.assigns.fill_color, icons: icons)
       height_changed ->
         icons = Enum.map socket.assigns.icons, fn icon -> %{icon | height: socket.assigns.height} end
         assign(socket, previous_height: socket.assigns.height, icons: icons)
+      stroke_color_changed ->
+        icons = Enum.map socket.assigns.icons, fn icon -> %{icon | stroke_color: socket.assigns.stroke_color} end
+        assign(socket, previous_stroke_color: socket.assigns.stroke_color, icons: icons)
       stroke_width_changed ->
         icons = Enum.map socket.assigns.icons, fn icon -> %{icon | stroke_width: socket.assigns.stroke_width} end
         assign(socket, previous_stroke_width: socket.assigns.stroke_width, icons: icons)
@@ -104,7 +114,9 @@ defmodule EnigmaWeb.IconLive do
           icon
         end
         assign(socket, 
+          previous_fill_color: socket.assigns.fill_color, 
           previous_height: socket.assigns.height, 
+          previous_stroke_color: socket.assigns.stroke_color, 
           previous_stroke_width: socket.assigns.stroke_width, 
           previous_variety: socket.assigns.variety, 
           previous_width: socket.assigns.width, 
