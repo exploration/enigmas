@@ -1,7 +1,7 @@
-<section class="pa3">
-  <form phx-change="refresh" phx-submit="refresh">
-    <div class="flex flex-wrap">
-      <div class="w5 mr3 mt2 mt1-ns">
+<section class="flex-ns">
+  <div class="w-100 w5-ns h-100-ns fixed-ns pa3">
+    <form phx-change="refresh" phx-submit="refresh">
+      <div class="w-100">
         <label for="height" class="<%= xc("label") %>">
           Height: <%= @height %>
         </label>
@@ -11,7 +11,7 @@
           <div>1000</div>
         </div>
       </div>
-      <div class="w5 mr3 mt2 mt1-ns">
+      <div class="w-100 mt2">
         <label for="width" class="<%= xc("label") %>">
           Width: <%= @width %>
         </label>
@@ -21,7 +21,7 @@
           <div>1000</div>
         </div>
       </div>
-      <div class="w5 mr3 mt2 mt1-ns">
+      <div class="w-100 mt2">
         <label for="stroke_width" class="<%= xc("label") %>">
           Line Width: <%= @stroke_width %>
         </label>
@@ -31,17 +31,7 @@
           <div>20</div>
         </div>
       </div>
-      <div class="w5 mr3 mt2 mt1-ns">
-        <label for="icon_count" class="<%= xc("label") %>">
-          Icon Count: <%= @icon_count %>
-        </label>
-        <input type="range" name="icon_count" value="<%= @icon_count %>" min="1" max="1000" class="w-100">
-        <div class="flex justify-between">
-          <div>1</div>
-          <div>1000</div>
-        </div>
-      </div>
-      <div class="w5 mr3 mt2 mt1-ns">
+      <div class="w-100 mt2">
         <label for="shape_count" class="<%= xc("label") %>">
           Shape Count: <%= @shape_count %>
         </label>
@@ -51,7 +41,7 @@
           <div>40</div>
         </div>
       </div>
-      <div class="mr5 mt2 mt1-ns">
+      <div class="w-100 mt3">
         <div class="<%= xc("label") %>">
           Variety
         </div>
@@ -66,24 +56,36 @@
           </label>
         </div>
       </div>
-      <div class="w3 mr3 mt2 mt1-ns">
-        <label for="fill_color" class="<%= xc("label") %>">
-          Fill Color
+      <div class="mt3 flex flex-wrap">
+        <div class="w3 mr3">
+          <label for="fill_color" class="<%= xc("label") %>">
+            Fill Color
+          </label>
+          <input type="color" name="fill_color" value="<%= @fill_color %>" class="w-100">
+        </div>
+        <div class="w3 mr3">
+          <label for="stroke_color" class="<%= xc("label") %>">
+            Line Color
+          </label>
+          <input type="color" name="stroke_color" value="<%= @stroke_color %>" class="w-100">
+        </div>
+      </div>
+      <div class="w-100 mt4">
+        <label for="icon_count" class="<%= xc("label") %>">
+          Icon Count: <%= @icon_count %>
         </label>
-        <input type="color" name="fill_color" value="<%= @fill_color %>" class="w-100">
+        <input type="range" name="icon_count" value="<%= @icon_count %>" min="1" max="1000" class="w-100">
+        <div class="flex justify-between">
+          <div>1</div>
+          <div>1000</div>
+        </div>
       </div>
-      <div class="w3 mr3 mt2 mt1-ns">
-        <label for="stroke_color" class="<%= xc("label") %>">
-          Line Color
-        </label>
-        <input type="color" name="stroke_color" value="<%= @stroke_color %>" class="w-100">
+      <div class="mt4">
+        <button class="<%= xc "btn-s-white", replace: [{"pv1", "w-100 pv2"}, {"x-oswald", "avenir"}] %>">Refresh</button>
       </div>
-      <div class="mt3 mt1-ns">
-        <button class="<%= xc "btn-s-white", replace: [{"pv1 ph4 ph5-ns", "pv2 ph3"}, {"x-oswald", "avenir"}] %>">Refresh</button>
-      </div>
-    </div>
-  </form>
-  <div class="mt4">
+    </form>
+  </div>
+  <div class="w-100 pa3 ml7-ns">
     <%= for icon <- @icons do %>
       <%= link raw(Renderer.render_icon(icon)), to: Routes.icon_download_path(@socket, :show, Icon.encode64(icon)), target: "enigma", class: "no-underline" %>
     <% end %>
