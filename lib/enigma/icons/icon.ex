@@ -8,7 +8,7 @@ defmodule Enigma.Icons.Icon do
   @hex_regex ~r/^#([[:xdigit:]]{3}){1,2}$/
 
   embedded_schema do
-    field :fill_color, :string, default: "#FFF"
+    field :fill_color, :string, default: "#FFFFFF"
     field :height, :integer
     field :shape_count, :integer
     field :stroke_color, :string, default: "#233E52"

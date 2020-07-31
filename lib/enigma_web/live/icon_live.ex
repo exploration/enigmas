@@ -10,16 +10,20 @@ defmodule EnigmaWeb.IconLive do
 
   @impl true
   def handle_params(params, _uri, socket) do
+    fill_color = params["fill_color"] || "#FFFFFF"
     icon_count = String.to_integer(params["icon_count"] || "15")
     height = get_dimension params, "height"
     shape_count = String.to_integer(params["shape_count"] || "5")
+    stroke_color = params["stroke_color"] || "#233E52"
     width = get_dimension params, "width"
     variety = params["variety"] || "circle"
     socket = 
       assign(socket, 
+        fill_color: fill_color, 
         icon_count: icon_count, 
         height: height,
         shape_count: shape_count,
+        stroke_color: stroke_color,
         variety: variety,
         width: width
       )
@@ -29,8 +33,10 @@ defmodule EnigmaWeb.IconLive do
 
   @impl true
   def handle_event("refresh", params, socket) do
+    fill_color = params["fill_color"]
     icon_count = String.to_integer(params["icon_count"])
     shape_count = String.to_integer(params["shape_count"])
+    stroke_color = params["stroke_color"]
     height = get_dimension params, "height"
     variety = params["variety"]
     width = get_dimension params, "width"
@@ -38,9 +44,11 @@ defmodule EnigmaWeb.IconLive do
       to: Routes.icon_path(
         socket,
         :index,
+        fill_color: fill_color,
         icon_count: icon_count,
         height: height,
         shape_count: shape_count,
+        stroke_color: stroke_color,
         variety: variety,
         width: width
       )
@@ -71,8 +79,10 @@ defmodule EnigmaWeb.IconLive do
       true ->
         icons = Enum.map 1..socket.assigns.icon_count, fn _i ->
           {:ok, icon} = Icon.create Example.icon(:all, 
-            shape_count: socket.assigns.shape_count, 
+            fill_color: socket.assigns.fill_color, 
             height: socket.assigns.height, 
+            shape_count: socket.assigns.shape_count, 
+            stroke_color: socket.assigns.stroke_color, 
             variety: socket.assigns.variety,
             width: socket.assigns.width
           )
