@@ -21,13 +21,13 @@ defmodule EnigmaWeb.IconLive do
     width = get_dimension params, "width"
     variety = params["variety"] || "circle"
     socket = 
-      assign(socket, 
-        icon_count: icon_count,
+      create_icons(socket, %{
         page_color: page_color,
+        spacing: spacing,
+
+        icon_count: icon_count,
         shape_count: shape_count,
-        spacing: spacing
-      )
-      |> create_icons(%{
+
         fill_color: fill_color, 
         height: height,
         stroke_color: stroke_color,
@@ -74,23 +74,24 @@ defmodule EnigmaWeb.IconLive do
     {:noreply, socket}
   end
 
+  defp find_changed_params(socket, params) do
+    Enum.find(params, false, fn {key, value} ->
+      Map.get(socket.assigns, key, value) != value
+    end) 
+  end
+
   defp create_icons(socket, updates) do
     change_list = Map.to_list(updates)
-    case updated_params?(socket, updates) do
-      false ->
-        icons = Enum.map((1..socket.assigns.icon_count), fn _i ->
-          {:ok, icon} = Icon.create Example.icon(:all, 
-            change_list ++ [shape_count: socket.assigns.shape_count]
-          )
-          icon
-        end)
-        assign(socket, [icons: icons] ++ change_list)
-      {key, value} ->
-        icons = Enum.map socket.assigns.icons, fn icon -> 
-          %{icon | key => value} 
-        end
-        assign(socket, [icons: icons] ++ change_list)
-    end
+    icons = 
+      updated_page?(socket, updates) ||
+      updated_params?(socket, updates) ||
+      Enum.map((1..updates.icon_count), fn _i ->
+        {:ok, icon} = Icon.create Example.icon(:all, 
+          change_list ++ [shape_count: updates.shape_count]
+        )
+        icon
+      end)
+    assign(socket, [icons: icons] ++ change_list)
   end
 
   defp get_dimension(params, key) do
@@ -101,9 +102,34 @@ defmodule EnigmaWeb.IconLive do
     end
   end
 
+  defp updated_page?(socket, updates) do
+    page_params = %{
+      page_color: updates.page_color,
+      spacing: updates.spacing
+    }
+    if find_changed_params(socket, page_params) do
+      socket.assigns.icons
+    else
+      false
+    end
+  end
+
   defp updated_params?(socket, updates) do
-    Enum.find updates, false, fn {key, value} ->
-      Map.get(socket.assigns, key, value) != value
+    update_params = %{
+      fill_color: updates.fill_color, 
+      height: updates.height,
+      stroke_color: updates.stroke_color,
+      stroke_width: updates.stroke_width,
+      variety: updates.variety,
+      width: updates.width
+    }
+    if pair = find_changed_params(socket, update_params) do
+      {key, value} = pair
+      Enum.map socket.assigns.icons, fn icon -> 
+        %{icon | key => value} 
+      end
+    else
+      false
     end
   end
 end

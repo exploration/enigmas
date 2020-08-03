@@ -31,6 +31,16 @@
           <div>20</div>
         </div>
       </div>
+      <div class="w-100 mt3">
+        <label for="spacing" class="<%= xc("label") %>">
+          Spacing: <%= @spacing %>px
+        </label>
+        <input type="range" name="spacing" value="<%= @spacing %>" min="0" max="100" class="w-100">
+        <div class="flex justify-between">
+          <div>0</div>
+          <div>100</div>
+        </div>
+      </div>
       <div class="mt3 flex flex-wrap">
         <div class="mr2" style="width: 3rem;">
           <label for="fill_color" class="<%= xc("label") %>">
@@ -84,16 +94,6 @@
         <div class="flex justify-between">
           <div>1</div>
           <div>50</div>
-        </div>
-      </div>
-      <div class="w-100 mt3">
-        <label for="spacing" class="<%= xc("label") %>">
-          Spacing: <%= @spacing %>px
-        </label>
-        <input type="range" name="spacing" value="<%= @spacing %>" min="0" max="100" class="w-100">
-        <div class="flex justify-between">
-          <div>0</div>
-          <div>100</div>
         </div>
       </div>
       <div class="mt4">
