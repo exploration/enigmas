@@ -29,6 +29,7 @@ defmodule Enigma.Icons.Renderer do
       #{icon.shapes |> Enum.map(fn s -> render_shape(icon, s) end) |> Enum.join()}
     </svg>
     """
+    |> String.trim()
   end
 
   def render_icon(%Icon{variety: "square"} = icon) do
@@ -53,6 +54,7 @@ defmodule Enigma.Icons.Renderer do
       #{icon.shapes |> Enum.map(fn s -> render_shape(icon, s) end) |> Enum.join()}
     </svg>
     """
+    |> String.trim()
   end
 
   def render_shape(%Icon{} = icon, %Shape{variety: "rectangle"} = shape) do

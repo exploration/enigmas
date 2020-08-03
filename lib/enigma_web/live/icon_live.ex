@@ -15,6 +15,7 @@ defmodule EnigmaWeb.IconLive do
     icon_count = String.to_integer(params["icon_count"] || "15")
     page_color = params["page_color"] || "#ffffff"
     shape_count = String.to_integer(params["shape_count"] || "5")
+    spacing = params["spacing"] || "5"
     stroke_color = params["stroke_color"] || "#233e52"
     stroke_width = String.to_integer(params["stroke_width"] || "2")
     width = get_dimension params, "width"
@@ -23,7 +24,8 @@ defmodule EnigmaWeb.IconLive do
       assign(socket, 
         icon_count: icon_count,
         page_color: page_color,
-        shape_count: shape_count
+        shape_count: shape_count,
+        spacing: spacing
       )
       |> create_icons(%{
         fill_color: fill_color, 
@@ -43,6 +45,7 @@ defmodule EnigmaWeb.IconLive do
     icon_count = String.to_integer(params["icon_count"])
     page_color = params["page_color"]
     shape_count = String.to_integer(params["shape_count"])
+    spacing = String.to_integer(params["spacing"])
     stroke_color = params["stroke_color"]
     stroke_width = String.to_integer(params["stroke_width"])
     variety = params["variety"]
@@ -55,6 +58,7 @@ defmodule EnigmaWeb.IconLive do
         icon_count: icon_count,
         height: height,
         page_color: page_color,
+        spacing: spacing,
         shape_count: shape_count,
         stroke_color: stroke_color,
         stroke_width: stroke_width,

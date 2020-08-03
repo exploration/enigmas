@@ -1,5 +1,5 @@
-<section class="fixed-ns top-0 bottom-0 left-0 right-0 flex-ns" style="background: <%= @page_color %>;">
-  <div class="w-100 w5-ns h-100-ns fixed-ns pa4 x-bg-palegray br x-b--lightgray">
+<section class="flex-ns" style="background: <%= @page_color %>;">
+  <div class="w-100 w5-ns h-100-ns fixed-ns pa3 x-bg-palegray br x-b--lightgray">
     <form phx-change="refresh" phx-submit="refresh">
       <div class="w-100">
         <label for="height" class="<%= xc("label") %>">
@@ -86,7 +86,17 @@
           <div>40</div>
         </div>
       </div>
-      <div class="mt5">
+      <div class="w-100 mt3">
+        <label for="spacing" class="<%= xc("label") %>">
+          Spacing: <%= @spacing %>px
+        </label>
+        <input type="range" name="spacing" value="<%= @spacing %>" min="0" max="100" class="w-100">
+        <div class="flex justify-between">
+          <div>0</div>
+          <div>100</div>
+        </div>
+      </div>
+      <div class="mt4">
         <button class="<%= xc "btn-s-white", replace: [{"pv1", "w-100 pv2"}, {"x-oswald", "avenir"}] %>">Refresh</button>
       </div>
       <div class="mt2">
@@ -94,9 +104,11 @@
       </div>
     </form>
   </div>
-  <div class="w-100 pa4 ml7-ns">
+  <div class="w-100 pa4 ml7-ns flex flex-wrap">
     <%= for icon <- @icons do %>
-      <%= link raw(Renderer.render_icon(icon)), to: Routes.icon_download_path(@socket, :show, Icon.encode64(icon)), target: "enigma", class: "no-underline" %>
+      <div class="dib" style="margin: <%= String.to_integer(@spacing) / 2 %>px; line-height: 0;">
+        <%= link raw(Renderer.render_icon(icon)), to: Routes.icon_download_path(@socket, :show, Icon.encode64(icon)), target: "enigma", class: "no-underline" %>
+      </div>
     <% end %>
   </div>
 </section>
