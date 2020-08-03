@@ -10,31 +10,36 @@ defmodule EnigmaWeb.IconLive do
 
   @impl true
   def handle_params(params, _uri, socket) do
+    # page updates, shouldn't regenerate icons
+    page_color = params["page_color"] || "#ffffff"
+    spacing = params["spacing"] || "5"
+
+    # should regenerate icons
+    icon_count = String.to_integer(params["icon_count"] || "15")
+    shape_count = String.to_integer(params["shape_count"] || "5")
+
+    # icon updates, shouldn't regenerate icons
     fill_color = params["fill_color"] || "#ffffff"
     height = get_dimension params, "height"
-    icon_count = String.to_integer(params["icon_count"] || "15")
-    page_color = params["page_color"] || "#ffffff"
-    shape_count = String.to_integer(params["shape_count"] || "5")
-    spacing = params["spacing"] || "5"
     stroke_color = params["stroke_color"] || "#233e52"
     stroke_width = String.to_integer(params["stroke_width"] || "2")
     width = get_dimension params, "width"
     variety = params["variety"] || "circle"
+
     socket = 
       create_icons(socket, %{
-        page_color: page_color,
-        spacing: spacing,
-
-        icon_count: icon_count,
-        shape_count: shape_count,
-
         fill_color: fill_color, 
         height: height,
+        icon_count: icon_count,
+        page_color: page_color,
+        shape_count: shape_count,
+        spacing: spacing,
         stroke_color: stroke_color,
         stroke_width: stroke_width,
         variety: variety,
         width: width
       })
+
     {:noreply, socket}
   end
 
@@ -50,6 +55,7 @@ defmodule EnigmaWeb.IconLive do
     stroke_width = String.to_integer(params["stroke_width"])
     variety = params["variety"]
     width = get_dimension params, "width"
+
     socket = push_patch(socket,
       to: Routes.icon_path(
         socket,
@@ -66,6 +72,7 @@ defmodule EnigmaWeb.IconLive do
         width: width
       )
     )
+
     {:noreply, socket}
   end
 
