@@ -1,4 +1,4 @@
-<section class="flex-ns">
+<section class="flex-ns" style="background: <%= @page_color %>;">
   <div class="w-100 w5-ns h-100-ns fixed-ns pa4 x-bg-palegray br x-b--lightgray">
     <form phx-change="refresh" phx-submit="refresh">
       <div class="w-100">
@@ -32,17 +32,23 @@
         </div>
       </div>
       <div class="mt3 flex flex-wrap">
-        <div class="w3 mr3">
+        <div class="mr2" style="width: 3rem;">
           <label for="fill_color" class="<%= xc("label") %>">
-            Fill Color
+            Fill 
           </label>
           <input type="color" name="fill_color" value="<%= @fill_color %>" class="w-100">
         </div>
-        <div class="w3 mr3">
+        <div class="mr2" style="width: 3rem;">
           <label for="stroke_color" class="<%= xc("label") %>">
-            Line Color
+            Line 
           </label>
           <input type="color" name="stroke_color" value="<%= @stroke_color %>" class="w-100">
+        </div>
+        <div class="mr2" style="width: 3rem;">
+          <label for="page_color" class="<%= xc("label") %>">
+            Page 
+          </label>
+          <input type="color" name="page_color" value="<%= @page_color %>" class="w-100">
         </div>
       </div>
       <div class="w-100 mt3">
