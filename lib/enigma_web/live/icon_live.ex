@@ -29,6 +29,7 @@ defmodule EnigmaWeb.IconLive do
         variety: variety,
         width: width
       )
+      |> assign_previous_values()
       |> create_icons()
     {:noreply, socket}
   end
@@ -81,6 +82,7 @@ defmodule EnigmaWeb.IconLive do
     stroke_width_changed = socket.assigns[:previous_stroke_width] && socket.assigns.previous_stroke_width != socket.assigns.stroke_width 
     variety_changed = socket.assigns[:previous_variety] && socket.assigns.previous_variety != socket.assigns.variety 
     width_changed = socket.assigns[:previous_width] && socket.assigns.previous_width != socket.assigns.width 
+
     cond do
       fill_color_changed ->
         icons = Enum.map socket.assigns.icons, fn icon -> %{icon | fill_color: socket.assigns.fill_color} end
@@ -113,23 +115,28 @@ defmodule EnigmaWeb.IconLive do
           )
           icon
         end
-        assign(socket, 
-          previous_fill_color: socket.assigns.fill_color, 
-          previous_height: socket.assigns.height, 
-          previous_stroke_color: socket.assigns.stroke_color, 
-          previous_stroke_width: socket.assigns.stroke_width, 
-          previous_variety: socket.assigns.variety, 
-          previous_width: socket.assigns.width, 
-          icons: icons
-        )
+        socket
+        |> assign_previous_values()
+        |> assign(icons: icons)
     end
   end
 
-  def get_dimension(params, key) do
+  defp get_dimension(params, key) do
     case params[key] do
       "" -> 300
       nil -> 300
       key -> String.to_integer key
     end
+  end
+
+  defp assign_previous_values(socket) do
+    assign(socket, 
+      previous_fill_color: socket.assigns.fill_color, 
+      previous_height: socket.assigns.height, 
+      previous_stroke_color: socket.assigns.stroke_color, 
+      previous_stroke_width: socket.assigns.stroke_width, 
+      previous_variety: socket.assigns.variety, 
+      previous_width: socket.assigns.width
+    )
   end
 end
