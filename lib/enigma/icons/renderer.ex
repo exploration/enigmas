@@ -47,8 +47,8 @@ defmodule Enigma.Icons.Renderer do
             width="100%"
             height="100%"
             stroke-width="#{icon.stroke_width * 2}%"
-            rx="2.5%"
-            ry="2.5%" 
+            rx="#{icon.stroke_width * 1.5}%"
+            ry="#{icon.stroke_width * 1.5}%" 
       />
       #{icon.shapes |> Enum.map(fn s -> render_shape(icon, s) end) |> Enum.join()}
     </svg>
